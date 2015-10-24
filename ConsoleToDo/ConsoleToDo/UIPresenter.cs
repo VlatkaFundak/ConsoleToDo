@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace ConsoleToDo
 {
+    /// <summary>
+    /// Displays full title.
+    /// </summary>
     static class UIPresenter
     {
         /// <summary>
         /// Creates title.
         /// </summary>
-        /// <param name="title"></param>
+        /// <param name="Title"></param>
         static public void ShowTitle(string title)
         {
             Console.ForegroundColor = ConsoleColor.Magenta;

@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConsoleToDo
 {
+    /// <summary>
+    /// Program class.
+    /// </summary>
     class Program
     {
         /// <summary>
-        /// Size of the console.
+        /// Sets the size of the console.
         /// </summary>
         private static void DimensionsOfTheConsole()
         {
