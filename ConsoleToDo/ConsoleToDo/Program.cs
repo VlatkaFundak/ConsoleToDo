@@ -8,9 +8,12 @@ namespace ConsoleToDo
 {
     class Program
     {
-        public static void DimensionsOfTheConsole()
+        /// <summary>
+        /// Size of the console.
+        /// </summary>
+        private static void DimensionsOfTheConsole()
         {
-            Console.SetWindowSize(200,40);
+            Console.SetWindowSize(Console.LargestWindowWidth - 40, Console.LargestWindowHeight - 20);
         }
 
         static void Main(string[] args)

@@ -8,19 +8,26 @@ namespace ConsoleToDo
 {
     static class UIPresenter
     {
+        /// <summary>
+        /// Creates title.
+        /// </summary>
+        /// <param name="title"></param>
         static public void ShowTitle(string title)
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
 
-            for (int i = 0; i < 200; i++)
-            {
-                Console.Write("*");
-            }
+            Stars();
             Console.WriteLine();
-
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (title.Length / 2)) + "}", title));
-
-            for (int i = 0; i < 200; i++)
+            Stars();
+        }
+        
+        /// <summary>
+        /// Creates stars for title.
+        /// </summary>
+        static private void Stars()
+        {
+            for (int i = 0; i < Console.WindowWidth; i++)
             {
                 Console.Write("*");
             }
