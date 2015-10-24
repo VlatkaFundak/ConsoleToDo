@@ -18,6 +18,18 @@ namespace ConsoleToDo
         {
             Console.SetWindowSize(Console.LargestWindowWidth - 40, Console.LargestWindowHeight - 20);
         }
+        
+        /// <summary>
+        /// Number of vertical spaces.
+        /// </summary>
+        /// <param name="n"></param>
+        public static void NumberOfSpaces(int n)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                Console.WriteLine();
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -25,6 +37,8 @@ namespace ConsoleToDo
 
             DimensionsOfTheConsole();
             UIPresenter.ShowTitle(title);
+
+            UIPresenter.PrintStartupMessage();
 
             Console.ReadKey();
         }
