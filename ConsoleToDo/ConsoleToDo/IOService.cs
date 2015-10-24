@@ -14,12 +14,16 @@ namespace ConsoleToDo
         /// <summary>
         /// Shows text in the console and adds vertical spaces.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Message.</param>
         /// <param name="numberOfSpaces">Number of vertical spaces.</param>
         static public void Print(string message, int numberOfSpaces)
         {
-            Program.NumberOfSpaces(numberOfSpaces);
             Console.WriteLine(message);
+
+            for (int i = 0; i < numberOfSpaces; i++)
+            {
+                Console.WriteLine();
+            }
         }
 
         /// <summary>

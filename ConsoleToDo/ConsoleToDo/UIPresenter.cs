@@ -20,9 +20,9 @@ namespace ConsoleToDo
             Console.ForegroundColor = ConsoleColor.Magenta;
 
             Stars();
-            Program.NumberOfSpaces(1);
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (title.Length / 2)) + "}", title));
             Stars();
+            IOService.Print("", 3);
         }
         
         /// <summary>
@@ -42,10 +42,8 @@ namespace ConsoleToDo
         static public void PrintStartupMessage()
         {
             string message = "Welcome and thank you for using our super cool application for managing todo lists. We really hope you will like it. Please log in or register using your email adress.";
-            IOService.Print(message, 3);
-            message = "If you have an  account please enter command [Login] and press Enter.";
-            IOService.Print(message,2);
-            message = "You can create an account by entering keyword [Register] and press Enter.";
+            IOService.Print(message, 2);
+            message = "If you have an  account please enter command [Login] and press Enter.\nYou can create an account by entering keyword[Register] and press Enter.";
             IOService.Print(message);
         }
     }
