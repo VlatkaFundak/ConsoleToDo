@@ -50,13 +50,13 @@ namespace ConsoleToDo
         /// <summary>
         /// Shows certain screen.
         /// </summary>
+        /// <param name="screen">Certain screen.</param>
         static public void ShowScreen(Screen screen)
         {
             switch (screen)
             {
                 case Screen.StartUp:
-                    string title = "Super ToDo Aplication";
-                    ShowTitle(title);
+                    ShowTitle("Super ToDo Aplication");
                     PrintStartupMessage();
                     break;
                 default:
