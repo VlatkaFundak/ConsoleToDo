@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandProcessingUnit.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="IOService.cs" />
     <Compile Include="Program.cs" />

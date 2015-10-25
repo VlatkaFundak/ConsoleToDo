@@ -44,7 +44,7 @@ namespace ConsoleToDo
             string message = "Welcome and thank you for using our super cool application for managing todo lists. We really hope you will like it. Please log in or register using your email adress.";
             IOService.Print(message, 2);
             message = "If you have an  account please enter command [Login] and press Enter.\nYou can create an account by entering keyword[Register] and press Enter.";
-            IOService.Print(message);
+            IOService.Print(message,1);
         }
 
         /// <summary>
@@ -56,10 +56,9 @@ namespace ConsoleToDo
             switch (screen)
             {
                 case Screen.StartUp:
+                    Console.Clear();
                     ShowTitle("Super ToDo Aplication");
                     PrintStartupMessage();
-                    break;
-                default:
                     break;
             }
         }

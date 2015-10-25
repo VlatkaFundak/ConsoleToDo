@@ -13,4 +13,10 @@ namespace ConsoleToDo
     {
         StartUp
     }
+
+    enum UserCommand
+    {
+        GoToRegister,
+        None
+    }
 }
