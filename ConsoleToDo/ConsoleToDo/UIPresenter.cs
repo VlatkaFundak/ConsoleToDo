@@ -46,5 +46,22 @@ namespace ConsoleToDo
             message = "If you have an  account please enter command [Login] and press Enter.\nYou can create an account by entering keyword[Register] and press Enter.";
             IOService.Print(message);
         }
+
+        /// <summary>
+        /// Shows certain screen.
+        /// </summary>
+        static public void ShowScreen(Screen screen)
+        {
+            switch (screen)
+            {
+                case Screen.StartUp:
+                    string title = "Super ToDo Aplication";
+                    ShowTitle(title);
+                    PrintStartupMessage();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

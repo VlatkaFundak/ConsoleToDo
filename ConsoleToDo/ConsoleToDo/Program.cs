@@ -21,12 +21,11 @@ namespace ConsoleToDo
 
         static void Main(string[] args)
         {
-            string title = "Super ToDo Aplication";
-
             DimensionsOfTheConsole();
-            UIPresenter.ShowTitle(title);
 
-            UIPresenter.PrintStartupMessage();
+            var currentScreen = Screen.StartUp;
+
+            UIPresenter.ShowScreen(currentScreen);
 
             Console.ReadKey();
         }
