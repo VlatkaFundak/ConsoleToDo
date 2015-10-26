@@ -11,20 +11,11 @@ namespace ConsoleToDo
     /// </summary>
     class Program
     {
-        /// <summary>
-        /// Sets the size of the console.
-        /// </summary>
-        private static void DimensionsOfTheConsole()
-        {
-            Console.SetWindowSize(Console.LargestWindowWidth - 40, Console.LargestWindowHeight - 20);
-        }
-
         static void Main(string[] args)
         {
-            DimensionsOfTheConsole();
+            InitialSetup();
 
             var currentScreen = Screen.StartUp;
-
             var userCommand = UserCommand.None;
             bool isRunning = true;
 
@@ -57,6 +48,15 @@ namespace ConsoleToDo
             } while (isRunning);
 
             Console.ReadKey();
+        }
+
+        /// <summary>
+        /// Sets the size of the console.
+        /// </summary>
+        private static void InitialSetup()
+        {
+            Console.SetWindowSize(Console.LargestWindowWidth - 40, Console.LargestWindowHeight - 20);
+            Console.ForegroundColor = ConsoleColor.Magenta;
         }
     }
 }

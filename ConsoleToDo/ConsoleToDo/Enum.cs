@@ -14,6 +14,9 @@ namespace ConsoleToDo
         StartUp
     }
 
+    /// <summary>
+    /// User commands.
+    /// </summary>
     enum UserCommand
     {
         GoToRegister,

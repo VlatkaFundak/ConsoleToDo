@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace ConsoleToDo
 {
+    /// <summary>
+    /// Command processing unit.
+    /// </summary>
     static class CommandProcessingUnit
     {
+        /// <summary>
+        /// Get command.
+        /// </summary>
+        /// <param name="userInput">User input.</param>
+        /// <param name="currentScreen">Current screen.</param>
+        /// <param name="register">User command.</param>
+        /// <returns>Bool.</returns>
         static public bool GetCommand(string userInput, Screen currentScreen, out UserCommand register)
         {
             if (userInput == "Register".ToLower())
