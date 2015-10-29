@@ -31,5 +31,22 @@ namespace ConsoleToDo
                 return false;
             }
         }
+
+        /// <summary>
+        /// Process command.
+        /// </summary>
+        /// <param name="userCommand">User command.</param>
+        /// <param name="currentScreen">Current screen.</param>
+        /// <returns>Screen.</returns>
+        static public Screen ProcessCommand(UserCommand userCommand, Screen currentScreen)
+        {
+            Screen screen = currentScreen;
+            if (userCommand == UserCommand.GoToRegister)
+            {
+                screen = Screen.StartUp;
+                UIPresenter.PrintRegisterScreen();
+            }
+            return screen;
+        }
     }
 }

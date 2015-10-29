@@ -39,6 +39,17 @@ namespace ConsoleToDo
         }
 
         /// <summary>
+        /// Prints register screen.
+        /// </summary>
+        static public void PrintRegisterScreen()
+        {
+            Console.Clear();
+            ShowTitle("Super ToDo Aplication");
+            string message = "Thank you for registering. Please follow  the steps and you will be up in no time.";
+            IOService.Print(message, 2);
+        }
+
+        /// <summary>
         /// Creates stars for title.
         /// </summary>
         static private void Stars()

@@ -42,8 +42,9 @@ namespace ConsoleToDo
 
                 } while (!isValid);
 
+                CommandProcessingUnit.ProcessCommand(userCommand, currentScreen);
 
-                UIPresenter.ShowScreen(currentScreen);
+                isRunning = false;
 
             } while (isRunning);
 
