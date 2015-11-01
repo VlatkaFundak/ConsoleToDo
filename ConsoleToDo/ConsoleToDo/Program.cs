@@ -62,6 +62,8 @@ namespace ConsoleToDo
         {
             Console.SetWindowSize(Console.LargestWindowWidth - 40, Console.LargestWindowHeight - 20);
             Console.ForegroundColor = ConsoleColor.Magenta;
+
+            UsersDatabase.LoadUsers();
         }
     }
 }
