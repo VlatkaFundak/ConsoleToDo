@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Infrastructure;
+
 namespace ConsoleToDo
 {
     /// <summary>
@@ -21,7 +23,7 @@ namespace ConsoleToDo
 
             UIPresenter.ShowScreen(currentScreen);
 
-            do
+            while (isRunning)
             {
                 string userInput = String.Empty;
                 bool isValid = true;
@@ -29,11 +31,11 @@ namespace ConsoleToDo
                 {
                     if (isValid)
                     {
-                        IOService.Print("Please enter your command: ");
+                        IOService.Print(Settings.enterYourCommand);
                     }
                     else
                     {
-                        IOService.Print("You have entered wrong command, please try again.");
+                        IOService.Print(Settings.wrongCommand);
 
                     }
 
@@ -50,13 +52,15 @@ namespace ConsoleToDo
 
                 UIPresenter.ShowScreen(currentScreen);
 
-            } while (isRunning);
+            }
 
             Console.ReadKey();
         }
 
+        #region Private methods.
+
         /// <summary>
-        /// Sets the size of the console.
+        /// Initial setup.
         /// </summary>
         private static void InitialSetup()
         {
@@ -65,5 +69,7 @@ namespace ConsoleToDo
 
             UsersDatabase.LoadUsers();
         }
+
+        #endregion
     }
 }

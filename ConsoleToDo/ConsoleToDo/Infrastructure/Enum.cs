@@ -7,19 +7,29 @@ using System.Threading.Tasks;
 namespace ConsoleToDo
 {
     /// <summary>
-    /// Screens.
+    /// Enum startup screen.
     /// </summary>
     enum Screen
     {
+        /// <summary>
+        /// Go to startup screen.
+        /// </summary>
         StartUp
     }
 
     /// <summary>
-    /// User commands.
+    /// Enum user commands.
     /// </summary>
     enum UserCommand
     {
+        /// <summary>
+        /// Go to register command.
+        /// </summary>
         GoToRegister,
+
+        /// <summary>
+        /// Do nothing.
+        /// </summary>
         None
     }
 }

@@ -16,18 +16,18 @@ namespace ConsoleToDo
         /// </summary>
         /// <param name="userInput">User input.</param>
         /// <param name="currentScreen">Current screen.</param>
-        /// <param name="register">User command.</param>
-        /// <returns>Bool.</returns>
-        static public bool GetCommand(string userInput, Screen currentScreen, out UserCommand register)
+        /// <param name="userCommand">User command.</param>
+        /// <returns>True if user has entered existing command, Screen that should be shown next.</returns>
+        static public bool GetCommand(string userInput, Screen currentScreen, out UserCommand userCommand)
         {
             if (userInput == "Register".ToLower())
             {
-                register = UserCommand.GoToRegister;
+                userCommand = UserCommand.GoToRegister;
                 return true;
             }
             else
             {
-                register = UserCommand.None;
+                userCommand = UserCommand.None;
                 return false;
             }
         }

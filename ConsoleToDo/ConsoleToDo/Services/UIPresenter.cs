@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Infrastructure;
+
 namespace ConsoleToDo
 {
     /// <summary>
@@ -21,21 +23,10 @@ namespace ConsoleToDo
             {
                 case Screen.StartUp:
                     Console.Clear();
-                    ShowTitle("Super ToDo Aplication");
+                    ShowTitle(Settings.title);
                     PrintStartupMessage();
                     break;
             }
-        }
-
-        /// <summary>
-        /// Creates a startup message.
-        /// </summary>
-        static private void PrintStartupMessage()
-        {
-            string message = "Welcome and thank you for using our super cool application for managing todo lists. We really hope you will like it. Please log in or register using your email adress.";
-            IOService.Print(message, 2);
-            message = "If you have an  account please enter command [Login] and press Enter.\nYou can create an account by entering keyword[Register] and press Enter.";
-            IOService.Print(message,1);
         }
 
         /// <summary>
@@ -44,10 +35,11 @@ namespace ConsoleToDo
         static public void PrintRegisterScreen()
         {
             Console.Clear();
-            ShowTitle("Super ToDo Aplication");
-            string message = "Thank you for registering. Please follow  the steps and you will be up in no time.";
-            IOService.Print(message, 2);
+            ShowTitle(Settings.title);
+            IOService.Print(Settings.registrationMessage, 2);
         }
+
+        #region Private methods
 
         /// <summary>
         /// Creates stars for title.
@@ -69,5 +61,17 @@ namespace ConsoleToDo
             Stars();
             IOService.Print("", 3);
         }
+
+        /// <summary>
+        /// Creates a startup message.
+        /// </summary>
+        static private void PrintStartupMessage()
+        {
+            IOService.Print(Settings.startUpMessage, 2);
+            IOService.Print(Settings.toLogInMessage);
+            IOService.Print(Settings.toRegisterMessage,1);
+        }
+
+        #endregion
     }
 }

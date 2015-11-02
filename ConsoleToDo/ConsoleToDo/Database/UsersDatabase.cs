@@ -14,13 +14,11 @@ namespace ConsoleToDo
     /// </summary>
     static class UsersDatabase
     {
-        static private List<User> users;
-
         /// <summary>
         /// Adds user.
         /// </summary>
         /// <param name="user">User.</param>
-        /// <returns>Bool.</returns>
+        /// <returns>True if there is no user with the same input.</returns>
         static bool AddUser(User user)
         {
             foreach (var item in users )
@@ -54,5 +52,7 @@ namespace ConsoleToDo
             }
 
         }
+
+        private static List<User> users;
     }
 }
