@@ -12,21 +12,26 @@ namespace ConsoleToDo
     class ToDoItem
     {
         #region Properties
+
         /// <summary>
         /// Description of ToDo task.
         /// </summary>
         public string Description { get; set; }
+
         /// <summary>
         /// Due date of ToDo task.
         /// </summary>
         public string DueDate { get; set; }
+
         /// <summary>
         /// True if task is completed.
         /// </summary>
         public bool IsCompleted { get; set; }
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// To do item constructor.
         /// </summary>
@@ -39,6 +44,7 @@ namespace ConsoleToDo
             this.DueDate = dueDate;
             this.IsCompleted = isCompleted;
         }
+
         #endregion
     }
 }

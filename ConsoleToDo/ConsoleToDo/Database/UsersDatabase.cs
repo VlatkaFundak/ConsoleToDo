@@ -19,7 +19,7 @@ namespace ConsoleToDo
         /// </summary>
         /// <param name="user">User.</param>
         /// <returns>True if there is no user with the same input.</returns>
-        static bool AddUser(User user)
+        static public bool AddUser(User user)
         {
             foreach (var item in users )
             {
@@ -53,6 +53,39 @@ namespace ConsoleToDo
 
         }
 
+        /// <summary>
+        /// Checks whether the input code is equal to code given in email.
+        /// </summary>
+        /// <param name="activationCode">Activation code.</param>
+        /// <returns>True if entered code is equal to the given code.</returns>
+        public static bool ExistingActivationCode(string activationCode)
+        {
+            foreach(var item in users)
+            {
+                if (item.ActivationCode == activationCode)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// List of users.
+        /// </summary>
         private static List<User> users;
+
+        /// <summary>
+        /// Updates database with new input.
+        /// </summary>
+        public static void UpdateDatabase()
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            path = Path.Combine(path, "List.txt");
+            users = new List<User>();
+
+            string json = JsonConvert.SerializeObject(users);
+            File.WriteAllText(path, json);
+        }
+
     }
 }

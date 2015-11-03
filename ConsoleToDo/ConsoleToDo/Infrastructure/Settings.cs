@@ -11,6 +11,8 @@ namespace Infrastructure
     /// </summary>
     static class Settings
     {
+
+
         /// <summary>
         /// Title of the application.
         /// </summary>
@@ -45,6 +47,26 @@ namespace Infrastructure
         /// Registration message.
         /// </summary>
         public static readonly string registrationMessage = "Thank you for registering. Please follow  the steps and you will be up in no time.";
+
+        /// <summary>
+        /// Registration email adress.
+        /// </summary>
+        public static readonly string registrationInput = "Input your email adress:";
+
+        /// <summary>
+        /// Password for registration.
+        /// </summary>
+        public static readonly string passwordInput = "Input your password:";
+
+        /// <summary>
+        /// Email not sent to user.
+        /// </summary>
+        public static readonly string sendEmailFail = "You have typed the wrong command. Please enter any key to return to start up screen:";
+
+        /// <summary>
+        /// Input activation code.
+        /// </summary>
+        public static readonly string activationCodeInput = "Please enter your activation code:";
 
     }
 }
