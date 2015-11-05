@@ -23,7 +23,7 @@ namespace ConsoleToDo
         {
             foreach (var item in users )
             {
-                if (user.Email == item.Email && user.ActivationCode == item.ActivationCode)
+                if (user.Email == item.Email)
                     return false;
             }
 

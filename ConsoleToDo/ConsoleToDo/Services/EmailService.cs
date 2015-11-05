@@ -26,10 +26,12 @@ namespace ConsoleToDo
             mail.Subject = subject;
             mail.Body = body;
 
-            SmtpClient smtp = new SmtpClient(host, portNumber);
+            SmtpClient smtp = new SmtpClient();
             smtp.Credentials = new NetworkCredential(adressFrom, password);
             smtp.EnableSsl = true;
             smtp.Send(mail);
+            smtp.Host = host;
+            smtp.Port = portNumber;
         }
     }
 }

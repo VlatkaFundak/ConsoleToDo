@@ -14,7 +14,12 @@ namespace ConsoleToDo
         /// <summary>
         /// Go to startup screen.
         /// </summary>
-        StartUp
+        StartUp,
+
+        /// <summary>
+        /// Go to register screen.
+        /// </summary>
+        Register
     }
 
     /// <summary>

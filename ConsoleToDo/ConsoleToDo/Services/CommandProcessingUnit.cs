@@ -40,12 +40,12 @@ namespace ConsoleToDo
         /// <param name="currentScreen">Current screen.</param>
         /// <returns>Screen.</returns>
         static public Screen ProcessCommand(UserCommand userCommand, Screen currentScreen)
-        {
+        {            
             Screen screen = currentScreen;
             if (userCommand == UserCommand.GoToRegister)
             {
-                screen = Screen.StartUp;
-                UIPresenter.PrintRegisterScreen();
+                screen = Screen.Register;
+                //UIPresenter.ShowScreen(screen);
             }
             return screen;
         }
@@ -63,10 +63,10 @@ namespace ConsoleToDo
             IOService.Print(Settings.passwordInput);
             string userInputPassword = Console.ReadLine();
 
-            EmailService sendEmail = new EmailService();
-
             try
             {
+                EmailService sendEmail = new EmailService();
+
                 sendEmail.SendEmail("vlatkaf@gmail.com", userInputEmail, "logika5", "smtp.gmail.com", 587, "Activation code for registering",
                     "Please enter this activation code for further registration:" + uniqueCode);
             }
@@ -98,9 +98,9 @@ namespace ConsoleToDo
 
             List<ToDoItem> toDoList = new List<ToDoItem>();
 
-            User userInputs = new User(userInputEmail, userInputPassword, uniqueCode, toDoList );
+            User user = new User(userInputEmail, userInputPassword, uniqueCode, toDoList );
 
-            if (!UsersDatabase.AddUser(userInputs))
+            if (!UsersDatabase.AddUser(user))
             {
                 Console.WriteLine("The user already exsits.");
                 Console.ReadKey();
@@ -117,19 +117,16 @@ namespace ConsoleToDo
         static private string GetRandomCode()
         {
             Random randomNumbers = new Random();
+            string activationCode = String.Empty;
 
             do
-            {
-                string activationCode = String.Empty;
+            {                
                 int random = randomNumbers.Next(10000,99999);
-                activationCode = random.ToString();
+                activationCode = random.ToString();  
+            }
+            while (UsersDatabase.ExistingActivationCode(activationCode));
 
-                UsersDatabase.ExistingActivationCode(activationCode);
-
-                return activationCode;
-
-            } while (true);
-        }
-        
+            return activationCode;
+        }        
     }
 }

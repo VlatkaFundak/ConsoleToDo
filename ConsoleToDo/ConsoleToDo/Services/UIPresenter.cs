@@ -26,17 +26,13 @@ namespace ConsoleToDo
                     ShowTitle(Settings.title);
                     PrintStartupMessage();
                     break;
-            }
-        }
 
-        /// <summary>
-        /// Prints register screen.
-        /// </summary>
-        static public void PrintRegisterScreen()
-        {
-            Console.Clear();
-            ShowTitle(Settings.title);
-            IOService.Print(Settings.registrationMessage, 2);
+                case Screen.Register:
+                    Console.Clear();
+                    ShowTitle(Settings.title);
+                    IOService.Print(Settings.registrationMessage, 2);
+                    break;
+            }
         }
 
         #region Private methods
