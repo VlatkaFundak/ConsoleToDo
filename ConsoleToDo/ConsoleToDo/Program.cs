@@ -25,7 +25,6 @@ namespace ConsoleToDo
 
             while (isRunning)
             {
-                //string userInput = String.Empty;
                 bool isValid = true;
                 do
                 {
@@ -46,9 +45,9 @@ namespace ConsoleToDo
 
                 CommandProcessingUnit.ProcessCommand(userCommand, currentScreen);
 
-                //Console.ReadLine();
+                Console.ReadLine();
 
-                //isRunning = false;
+                isRunning = false;
 
                 UIPresenter.ShowScreen(currentScreen);
 

@@ -11,6 +11,8 @@ namespace ConsoleToDo
     /// </summary>
     static class IOService
     {
+        #region Public methods
+
         /// <summary>
         /// Shows text in the console and adds vertical spaces.
         /// </summary>
@@ -34,5 +36,7 @@ namespace ConsoleToDo
         {
             Print(message, 0);
         }
+
+        #endregion
     }
 }

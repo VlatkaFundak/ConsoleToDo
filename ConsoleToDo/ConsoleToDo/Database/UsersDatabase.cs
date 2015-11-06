@@ -14,6 +14,16 @@ namespace ConsoleToDo
     /// </summary>
     static class UsersDatabase
     {
+        #region Properties
+        /// <summary>
+        /// Loged in user.
+        /// </summary>
+        static public User LogedInUser { get; set; }
+
+        #endregion
+
+        #region Public methods
+
         /// <summary>
         /// Adds user.
         /// </summary>
@@ -58,7 +68,7 @@ namespace ConsoleToDo
         /// </summary>
         /// <param name="activationCode">Activation code.</param>
         /// <returns>True if entered code is equal to the given code.</returns>
-        public static bool ExistingActivationCode(string activationCode)
+        static public bool ExistingActivationCode(string activationCode)
         {
             foreach(var item in users)
             {
@@ -68,16 +78,11 @@ namespace ConsoleToDo
 
             return true;
         }
-
-        /// <summary>
-        /// List of users.
-        /// </summary>
-        private static List<User> users;
-
+        
         /// <summary>
         /// Updates database with new input.
         /// </summary>
-        public static void UpdateDatabase()
+        static public void UpdateDatabase()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             path = Path.Combine(path, "List.txt");
@@ -87,5 +92,34 @@ namespace ConsoleToDo
             File.WriteAllText(path, json);
         }
 
+        /// <summary>
+        /// Log in user.
+        /// </summary>
+        /// <param name="email">Email of the user.</param>
+        /// <param name="password">Password of the user.</param>
+        /// <returns></returns>
+        static public bool LogInUser(string email, string password)
+        {
+            foreach(var user in users)
+            {
+                if(user.Email == email && user.Password == password)
+                {
+                    LogedInUser = user;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Fields
+        /// <summary>
+        /// List of users.
+        /// </summary>
+        private static List<User> users;
+
+        #endregion
     }
 }

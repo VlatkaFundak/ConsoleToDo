@@ -19,7 +19,12 @@ namespace ConsoleToDo
         /// <summary>
         /// Go to register screen.
         /// </summary>
-        Register
+        Register,
+
+        /// <summary>
+        /// Go to login screen.
+        /// </summary>
+        Login
     }
 
     /// <summary>
@@ -31,6 +36,11 @@ namespace ConsoleToDo
         /// Go to register command.
         /// </summary>
         GoToRegister,
+
+        /// <summary>
+        /// Go to login command.
+        /// </summary>
+        GoToLogin,
 
         /// <summary>
         /// Do nothing.

@@ -12,6 +12,8 @@ namespace ConsoleToDo
     /// </summary>
     static class CommandProcessingUnit
     {
+        #region Public methods.
+
         /// <summary>
         /// Get command.
         /// </summary>
@@ -21,15 +23,17 @@ namespace ConsoleToDo
         /// <returns>True if user has entered existing command, Screen that should be shown next.</returns>
         static public bool GetCommand(string userInput, Screen currentScreen, out UserCommand userCommand)
         {
-            if (userInput == "Register".ToLower())
+            switch (userInput.ToLower())
             {
-                userCommand = UserCommand.GoToRegister;
-                return true;
-            }
-            else
-            {
-                userCommand = UserCommand.None;
-                return false;
+                case "register":
+                    userCommand = UserCommand.GoToRegister;
+                    return true;
+                case "login":
+                    userCommand = UserCommand.GoToLogin;
+                    return true; 
+                default:
+                    userCommand = UserCommand.None;
+                    return false;
             }
         }
 
@@ -42,13 +46,39 @@ namespace ConsoleToDo
         static public Screen ProcessCommand(UserCommand userCommand, Screen currentScreen)
         {            
             Screen screen = currentScreen;
-            if (userCommand == UserCommand.GoToRegister)
+
+            switch (userCommand)
             {
-                screen = Screen.Register;
-                //UIPresenter.ShowScreen(screen);
+                case UserCommand.GoToRegister:
+                    screen = Screen.Register;
+                    UIPresenter.ShowScreen(screen);
+
+                    if (RegisterProcess() == true)
+                    {
+                        screen = Screen.StartUp;
+                    }
+                    else 
+                        screen = Screen.StartUp;
+                    break;
+                case UserCommand.GoToLogin:
+                    screen = Screen.Login;
+                    UIPresenter.ShowScreen(screen);
+
+                    if (LogInProcess() == true)
+                        screen = Screen.StartUp;
+                    else
+                        screen = Screen.StartUp;
+                    break;
+                case UserCommand.None:
+                    break;
             }
+
             return screen;
         }
+
+        #endregion
+
+        #region Private methods
 
         /// <summary>
         /// Register process.
@@ -57,11 +87,15 @@ namespace ConsoleToDo
         static private bool RegisterProcess()
         {
             string uniqueCode = GetRandomCode();
-            IOService.Print(Settings.registrationInput);
+            IOService.Print(Settings.inputEmail);
             string userInputEmail = Console.ReadLine();
+            if (CheckBackOrExit(userInputEmail) == false)
+                return false;
 
             IOService.Print(Settings.passwordInput);
             string userInputPassword = Console.ReadLine();
+            if (CheckBackOrExit(userInputPassword) == false)
+                return false;
 
             try
             {
@@ -111,6 +145,33 @@ namespace ConsoleToDo
         }
 
         /// <summary>
+        /// Login process.
+        /// </summary>
+        /// <returns>True if user types the right input and is registered.</returns>
+        static private bool LogInProcess()
+        {
+            bool isValid = true;
+
+            do
+            {
+                IOService.Print(Settings.inputEmail);
+                string userInputEmail = Console.ReadLine();
+
+                IOService.Print(Settings.passwordInput);
+                string userInputPassword = Console.ReadLine();
+
+                if (UsersDatabase.LogInUser(userInputEmail, userInputPassword) == false)
+                {
+                    IOService.Print(Settings.wrongCredentials);
+                    return false;
+                }
+                return true;
+
+            }
+            while (!isValid);
+        }
+
+        /// <summary>
         /// Gets random activation code.
         /// </summary>
         /// <returns>Activation code.</returns>
@@ -128,5 +189,27 @@ namespace ConsoleToDo
 
             return activationCode;
         }        
+
+        /// <summary>
+        /// Back to start up screen or exit.
+        /// </summary>
+        /// <param name="userInput">User input.</param>
+        /// <returns>True if user types back.</returns>
+        static private bool CheckBackOrExit(string userInput)
+        {
+            if (userInput.ToLower() == "back")
+                return true;
+            else if (userInput.ToLower() == "exit")
+            {
+                Environment.Exit(-1);
+                return false;
+            }
+
+            else
+                return false;
+
+        }
+
+        #endregion
     }
 }

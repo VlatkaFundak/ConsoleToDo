@@ -13,6 +13,8 @@ namespace ConsoleToDo
     /// </summary>
     static class UIPresenter
     {
+        #region Public methods
+
         /// <summary>
         /// Shows certain screen.
         /// </summary>
@@ -26,14 +28,20 @@ namespace ConsoleToDo
                     ShowTitle(Settings.title);
                     PrintStartupMessage();
                     break;
-
                 case Screen.Register:
                     Console.Clear();
                     ShowTitle(Settings.title);
                     IOService.Print(Settings.registrationMessage, 2);
                     break;
+                case Screen.Login:
+                    Console.Clear();
+                    ShowTitle(Settings.title);
+                    IOService.Print(Settings.loginStartupMessage,2);
+                    break;
             }
         }
+
+        #endregion
 
         #region Private methods
 

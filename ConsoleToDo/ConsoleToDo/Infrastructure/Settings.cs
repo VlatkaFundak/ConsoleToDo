@@ -11,8 +11,6 @@ namespace Infrastructure
     /// </summary>
     static class Settings
     {
-
-
         /// <summary>
         /// Title of the application.
         /// </summary>
@@ -51,12 +49,12 @@ namespace Infrastructure
         /// <summary>
         /// Registration email adress.
         /// </summary>
-        public static readonly string registrationInput = "Input your email adress:";
+        public static readonly string inputEmail = "Input your email adress, back to return or exit:";
 
         /// <summary>
         /// Password for registration.
         /// </summary>
-        public static readonly string passwordInput = "Input your password:";
+        public static readonly string passwordInput = "Input your password, back to return or exit:";
 
         /// <summary>
         /// Email not sent to user.
@@ -67,6 +65,16 @@ namespace Infrastructure
         /// Input activation code.
         /// </summary>
         public static readonly string activationCodeInput = "Please enter your activation code:";
+
+        /// <summary>
+        /// Login startup message.
+        /// </summary>
+        public static readonly string loginStartupMessage = "Enter your credentials to login.";
+
+        /// <summary>
+        /// Wrong credentials inputed.
+        /// </summary>
+        public static readonly string wrongCredentials = "Wrong credentials, please try again.";
 
     }
 }
