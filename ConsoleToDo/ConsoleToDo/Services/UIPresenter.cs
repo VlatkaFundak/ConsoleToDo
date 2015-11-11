@@ -9,7 +9,7 @@ using Infrastructure;
 namespace ConsoleToDo
 {
     /// <summary>
-    /// Displays full title.
+    /// Displays screens.
     /// </summary>
     static class UIPresenter
     {

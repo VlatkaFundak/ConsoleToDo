@@ -219,13 +219,13 @@ namespace ConsoleToDo
             try
             {
                 IEmailService sendEmail = new EmailService();
-                sendEmail.SendEmail(EmailSettings.email, userInputEmail, EmailSettings.password, EmailSettings.host, EmailSettings.portNumber,
-                    "Activation code for registering", "Please enter this activation code for further registration:" + uniqueCode);
+                sendEmail.SendEmail(Settings.EmailSettings.email, userInputEmail, Settings.EmailSettings.password, Settings.EmailSettings.host, 
+                   Settings.EmailSettings.portNumber, "Activation code for registering", "Please enter this activation code for further registration:" + uniqueCode);
 
             }
             catch (Exception)
             {
-                IOService.Print(EmailSettings.sendEmailFail);
+                IOService.Print(Settings.EmailSettings.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }
@@ -308,7 +308,7 @@ namespace ConsoleToDo
             if (CheckBackOrExit(dueDate) == false)
                 return false;
 
-            IOService.Print(EmailSettings.taskAddedEmail);
+            IOService.Print(Settings.EmailSettings.taskAddedEmail);
 
             UsersDatabase.LogedInUser.TodoList.Add(new ToDoItem(descriptionOfTheToDo, dueDate, false));
 
@@ -316,12 +316,13 @@ namespace ConsoleToDo
 
             try
             {
-                sendEmail.SendEmail(EmailSettings.email, UsersDatabase.LogedInUser.Email, EmailSettings.password, EmailSettings.host, EmailSettings.portNumber,
-                    "To do task", "To do description:\n" + descriptionOfTheToDo + "Due date of to do:\n" + dueDate);
+                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, 
+                    Settings.EmailSettings.host, Settings.EmailSettings.portNumber, "To do task", "To do description:\n" 
+                    + descriptionOfTheToDo + "Due date of to do:\n" + dueDate);
             }
             catch (Exception)
             {
-                IOService.Print(EmailSettings.sendEmailFail);
+                IOService.Print(Settings.EmailSettings.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }
@@ -365,17 +366,17 @@ namespace ConsoleToDo
 
             } while (!isValid);
 
-            IOService.Print(EmailSettings.removedTaskEmail);
+            IOService.Print(Settings.EmailSettings.removedTaskEmail);
 
             IEmailService sendEmail = new EmailService();
             try
             {
-                sendEmail.SendEmail(EmailSettings.email, UsersDatabase.LogedInUser.Email, EmailSettings.password, EmailSettings.host, EmailSettings.portNumber,
-                    "Removed task", "To do task removed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt].Description);
+                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, Settings.EmailSettings.host, 
+                    Settings.EmailSettings.portNumber, "Removed task", "To do task removed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt].Description);
             }
             catch (Exception)
             {
-                IOService.Print(EmailSettings.sendEmailFail);
+                IOService.Print(Settings.EmailSettings.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }
@@ -423,12 +424,13 @@ namespace ConsoleToDo
             IEmailService sendEmail = new EmailService();
             try
             {
-                sendEmail.SendEmail(EmailSettings.email, UsersDatabase.LogedInUser.Email, EmailSettings.password, EmailSettings.host, EmailSettings.portNumber,
-                    "Completed task", "To do task completed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
+                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, Settings.EmailSettings.host,
+                    Settings.EmailSettings.portNumber, "Completed task", "To do task completed:\n" 
+                    + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
             }
             catch (Exception)
             {
-                IOService.Print(EmailSettings.sendEmailFail);
+                IOService.Print(Settings.EmailSettings.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }

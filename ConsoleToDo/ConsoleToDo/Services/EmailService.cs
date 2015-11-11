@@ -31,6 +31,8 @@ namespace ConsoleToDo
 
             SmtpClient smtp = new SmtpClient(host, portNumber);
             smtp.Credentials = new NetworkCredential(adressFrom, password);
+            smtp.EnableSsl = true;
+            smtp.Send(mail);
         }
     }
 }
