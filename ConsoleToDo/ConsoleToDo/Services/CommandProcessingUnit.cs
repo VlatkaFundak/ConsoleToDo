@@ -218,10 +218,10 @@ namespace ConsoleToDo
 
             try
             {
-                EmailService sendEmail = new EmailService();
-
+                IEmailService sendEmail = new EmailService();
                 sendEmail.SendEmail(EmailSettings.email, userInputEmail, EmailSettings.password, EmailSettings.host, EmailSettings.portNumber,
                     "Activation code for registering", "Please enter this activation code for further registration:" + uniqueCode);
+
             }
             catch (Exception)
             {
@@ -311,8 +311,8 @@ namespace ConsoleToDo
             IOService.Print(EmailSettings.taskAddedEmail);
 
             UsersDatabase.LogedInUser.TodoList.Add(new ToDoItem(descriptionOfTheToDo, dueDate, false));
-                        
-            EmailService sendEmail = new EmailService();
+
+            IEmailService sendEmail = new EmailService();
 
             try
             {
@@ -367,7 +367,7 @@ namespace ConsoleToDo
 
             IOService.Print(EmailSettings.removedTaskEmail);
 
-            EmailService sendEmail = new EmailService();
+            IEmailService sendEmail = new EmailService();
             try
             {
                 sendEmail.SendEmail(EmailSettings.email, UsersDatabase.LogedInUser.Email, EmailSettings.password, EmailSettings.host, EmailSettings.portNumber,
@@ -420,7 +420,7 @@ namespace ConsoleToDo
 
             } while (!isValid);
 
-            EmailService sendEmail = new EmailService();
+            IEmailService sendEmail = new EmailService();
             try
             {
                 sendEmail.SendEmail(EmailSettings.email, UsersDatabase.LogedInUser.Email, EmailSettings.password, EmailSettings.host, EmailSettings.portNumber,
@@ -474,6 +474,5 @@ namespace ConsoleToDo
         }
 
         #endregion
-
     }
 }

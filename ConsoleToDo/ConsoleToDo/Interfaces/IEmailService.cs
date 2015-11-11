@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleToDo
 {
     /// <summary>
-    /// Email service class.
+    /// Email service interface.
     /// </summary>
-    class EmailService: IEmailService
+    public interface IEmailService
     {
         /// <summary>
         /// Sends an email with the activation code.
@@ -23,14 +21,6 @@ namespace ConsoleToDo
         /// <param name="portNumber">Port number.</param>
         /// <param name="subject">Subject of the email.</param>
         /// <param name="body">Body of the email.</param>
-        public void SendEmail(string adressFrom, string adressTo, string password, string host, int portNumber, string subject, string body)
-        {
-            MailMessage mail = new MailMessage(adressFrom, adressTo);
-            mail.Subject = subject;
-            mail.Body = body;
-
-            SmtpClient smtp = new SmtpClient(host, portNumber);
-            smtp.Credentials = new NetworkCredential(adressFrom, password);
-        }
+        void SendEmail(string adressFrom, string adressTo, string password, string host, int portNumber, string subject, string body);
     }
 }

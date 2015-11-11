@@ -15,6 +15,24 @@ namespace ConsoleToDo
     /// </summary>
     static class UsersDatabase
     {
+        #region Fields
+
+        /// <summary>
+        /// List of users.
+        /// </summary>
+        static private List<User> users;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Loged in user.
+        /// </summary>
+        static public User LogedInUser { get; set; }
+
+        #endregion
+
         #region Public methods
 
         /// <summary>
@@ -32,8 +50,6 @@ namespace ConsoleToDo
 
             users.Add(user);
             LogedInUser = user;
-            UpdateDatabase();
-
             return true;
         }
 
@@ -145,22 +161,6 @@ namespace ConsoleToDo
             }
             return i;
         }
-
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Loged in user.
-        /// </summary>
-        static public User LogedInUser { get; set; }
-
-        #endregion
-
-        #region Fields
-        /// <summary>
-        /// List of users.
-        /// </summary>
-        static private List<User> users;
 
         #endregion
 
