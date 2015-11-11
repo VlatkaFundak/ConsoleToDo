@@ -43,16 +43,10 @@ namespace ConsoleToDo
 
                 } while (!isValid);
 
-                CommandProcessingUnit.ProcessCommand(userCommand, currentScreen);
-
-                Console.ReadLine();
-
-                isRunning = false;
+                currentScreen = CommandProcessingUnit.ProcessCommand(userCommand, currentScreen);
 
                 UIPresenter.ShowScreen(currentScreen);
-
             }
-
             Console.ReadKey();
         }
 
@@ -65,8 +59,6 @@ namespace ConsoleToDo
         {
             Console.SetWindowSize(Console.LargestWindowWidth - 40, Console.LargestWindowHeight - 20);
             Console.ForegroundColor = ConsoleColor.Green;
-
-            Console.BackgroundColor = ConsoleColor.DarkGray;
 
             UsersDatabase.LoadUsers();
         }

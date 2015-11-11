@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\EmailSettings.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\CommandProcessingUnit.cs" />
     <Compile Include="Infrastructure\Enum.cs" />

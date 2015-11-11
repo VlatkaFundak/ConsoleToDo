@@ -24,7 +24,22 @@ namespace ConsoleToDo
         /// <summary>
         /// Go to login screen.
         /// </summary>
-        Login
+        Login,
+
+        /// <summary>
+        /// User profile (todo list) screen.
+        /// </summary>
+        UserProfile,
+
+        /// <summary>
+        /// Go to add to do screen.
+        /// </summary>
+        AddToDoScreen,
+
+        /// <summary>
+        /// Shows history.
+        /// </summary>
+        HistoryScreen
     }
 
     /// <summary>
@@ -41,6 +56,26 @@ namespace ConsoleToDo
         /// Go to login command.
         /// </summary>
         GoToLogin,
+
+        /// <summary>
+        /// Adds todo.
+        /// </summary>
+        AddToDo,
+
+        /// <summary>
+        /// Removes todo.
+        /// </summary>
+        RemoveToDo,
+
+        /// <summary>
+        /// Completes todo.
+        /// </summary>
+        CompleteToDo,
+
+        /// <summary>
+        /// Completed todos.
+        /// </summary>
+        HistoryToDo,
 
         /// <summary>
         /// Do nothing.

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 using System.IO;
+using Infrastructure;
 
 namespace ConsoleToDo
 {
@@ -14,14 +15,6 @@ namespace ConsoleToDo
     /// </summary>
     static class UsersDatabase
     {
-        #region Properties
-        /// <summary>
-        /// Loged in user.
-        /// </summary>
-        static public User LogedInUser { get; set; }
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -38,6 +31,9 @@ namespace ConsoleToDo
             }
 
             users.Add(user);
+            LogedInUser = user;
+            UpdateDatabase();
+
             return true;
         }
 
@@ -60,7 +56,6 @@ namespace ConsoleToDo
                     users = new List<User>();
                 }
             }
-
         }
 
         /// <summary>
@@ -86,7 +81,7 @@ namespace ConsoleToDo
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             path = Path.Combine(path, "List.txt");
-            users = new List<User>();
+            //users = new List<User>();
 
             string json = JsonConvert.SerializeObject(users);
             File.WriteAllText(path, json);
@@ -112,14 +107,62 @@ namespace ConsoleToDo
             return false;
         }
 
+        /// <summary>
+        /// Marks as complete todos.
+        /// </summary>
+        /// <param name="index">Index of todo.</param>
+        static public void MarkAsComplete(int index)
+        {
+            int i = 0;
+            foreach (var item in LogedInUser.TodoList)
+            {
+                if (item.IsCompleted == false)
+                {
+                    if (i == index)
+                    {
+                        item.IsCompleted = true;
+                        break;
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Number of uncompleted todos.
+        /// </summary>
+        /// <returns>Number of uncompleted todos.</returns>
+        static public int NumberOfUncompletedToDos()
+        {
+            int i = 0;
+            foreach (var item in LogedInUser.TodoList)
+            {
+                if (item.IsCompleted == false)
+                    i++;
+            }
+            return i;
+        }
+
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Loged in user.
+        /// </summary>
+        static public User LogedInUser { get; set; }
+
         #endregion
 
         #region Fields
         /// <summary>
         /// List of users.
         /// </summary>
-        private static List<User> users;
+        static private List<User> users;
 
         #endregion
+
     }
 }

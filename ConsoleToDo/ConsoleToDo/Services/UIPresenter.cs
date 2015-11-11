@@ -38,6 +38,23 @@ namespace ConsoleToDo
                     ShowTitle(Settings.title);
                     IOService.Print(Settings.loginStartupMessage,2);
                     break;
+                case Screen.UserProfile:
+                    Console.Clear();
+                    ShowTitle(Settings.title);
+                    Console.WriteLine("Hi {0}. \t\tYou have {1} todos to complete.\n", UsersDatabase.LogedInUser.Email, UsersDatabase.NumberOfUncompletedToDos());
+                    IOService.Print(Settings.commandsForToDoList,2);
+                    ShowToDoList();
+                    break;
+                case Screen.AddToDoScreen:
+                    Console.Clear();
+                    ShowTitle(Settings.title);
+                    IOService.Print(Settings.addNewItemToList, 2);
+                    break;
+                case Screen.HistoryScreen:
+                    Console.Clear();
+                    ShowTitle(Settings.title);
+                    IOService.Print(Settings.historyToDo,1);
+                    break;
             }
         }
 
@@ -74,6 +91,22 @@ namespace ConsoleToDo
             IOService.Print(Settings.startUpMessage, 2);
             IOService.Print(Settings.toLogInMessage);
             IOService.Print(Settings.toRegisterMessage,1);
+        }
+
+        /// <summary>
+        /// Creates todo list.
+        /// </summary>
+        static private void ShowToDoList()
+        {
+            int i = 1;
+            foreach (var item in UsersDatabase.LogedInUser.TodoList)
+            {
+                if (item.IsCompleted == false)
+                {
+                    Console.WriteLine("{0}.\nDescription: {1}\nDue date: {2}\n", i, item.Description, item.DueDate);
+                    i++;
+                }
+            }
         }
 
         #endregion
