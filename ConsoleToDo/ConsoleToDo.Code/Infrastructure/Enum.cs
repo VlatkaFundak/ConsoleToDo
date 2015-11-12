@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleToDo
+namespace ConsoleToDo.Code
 {
     /// <summary>
     /// Enum startup screen.
     /// </summary>
-    enum Screen
+    public enum Screen
     {
         /// <summary>
         /// Go to startup screen.
@@ -45,7 +45,7 @@ namespace ConsoleToDo
     /// <summary>
     /// Enum user commands.
     /// </summary>
-    enum UserCommand
+    public enum UserCommand
     {
         /// <summary>
         /// Go to register command.

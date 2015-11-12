@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleToDo
+namespace ConsoleToDo.Code
 {
     /// <summary>
     /// User model class.
     /// </summary>
-    class User
+    public class User
     {
         #region Properties
         /// <summary>

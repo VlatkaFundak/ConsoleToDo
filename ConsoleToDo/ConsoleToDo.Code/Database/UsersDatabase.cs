@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 using System.IO;
-using Infrastructure;
+using Infrastructure.Code;
 
-namespace ConsoleToDo
+namespace ConsoleToDo.Code
 {
     /// <summary>
     /// Users database.
     /// </summary>
-    static class UsersDatabase
+    public static class UsersDatabase
     {
         #region Fields
 

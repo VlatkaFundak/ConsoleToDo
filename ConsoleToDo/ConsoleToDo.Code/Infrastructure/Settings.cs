@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure
+namespace Infrastructure.Code
 {
     /// <summary>
     /// Strings in the application.
     /// </summary>
-    static class Settings
+    static public class Settings
     {
         /// <summary>
         /// Title of the application.

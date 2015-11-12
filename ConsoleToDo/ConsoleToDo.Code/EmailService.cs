@@ -6,12 +6,12 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleToDo
+namespace ConsoleToDo.Code
 {
     /// <summary>
     /// Email service class.
     /// </summary>
-    class EmailService: IEmailService
+    public class EmailService: IEmailService
     {
         /// <summary>
         /// Sends an email with the activation code.
