@@ -191,7 +191,7 @@ namespace ConsoleToDo
         /// Register process.
         /// </summary>
         /// <returns>True if user enteres correct input.</returns>
-        static private bool RegisterProcess()
+        static bool RegisterProcess()
         {
             string uniqueCode = GetRandomCode();
 
@@ -262,7 +262,7 @@ namespace ConsoleToDo
         /// Login process.
         /// </summary>
         /// <returns>True if user types the right input and is registered.</returns>
-        static private bool LogInProcess()
+        static bool LogInProcess()
         {
             bool isValid = true;
 
@@ -296,7 +296,7 @@ namespace ConsoleToDo
         /// Adds item to the list.
         /// </summary>
         /// <returns>True if successfully added to the list.</returns>
-        static private bool AddToList()
+        static bool AddToList()
         {
             IOService.Print(Settings.inputDescriptionOfToDo, 1);
             string descriptionOfTheToDo = Console.ReadLine();
@@ -335,7 +335,7 @@ namespace ConsoleToDo
         /// Removes item from the list.
         /// </summary>
         /// <returns>True if successfully removed from the list.</returns>
-        static private bool RemoveToDo()
+        static bool RemoveToDo()
         {
             IOService.Print(Settings.removeToDo);
 
@@ -360,7 +360,6 @@ namespace ConsoleToDo
                 }
                 else
                 {
-                    indexOfToDoInt -= 1;
                     isValid = true;
                 }
 
@@ -371,8 +370,8 @@ namespace ConsoleToDo
             IEmailService sendEmail = new EmailService();
             try
             {
-                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, Settings.EmailSettings.host, 
-                    Settings.EmailSettings.portNumber, "Removed task", "To do task removed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt].Description);
+                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, Settings.EmailSettings.host,
+                    Settings.EmailSettings.portNumber, "Removed task", "To do task removed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
             }
             catch (Exception)
             {
@@ -381,8 +380,22 @@ namespace ConsoleToDo
                 return false;
             }
 
-            if (UsersDatabase.LogedInUser.TodoList[indexOfToDoInt].IsCompleted == false)
-                UsersDatabase.LogedInUser.TodoList.RemoveAt(indexOfToDoInt);
+            int j = 0;
+            indexOfToDoInt -= 1;
+
+            for (int i = 0; i < UsersDatabase.LogedInUser.TodoList.Count; i++)
+            {
+                if (UsersDatabase.LogedInUser.TodoList[i].IsCompleted == false)
+                {
+                    if (j == indexOfToDoInt)
+                    {
+                        UsersDatabase.LogedInUser.TodoList.RemoveAt(i);
+                        break;
+                    }
+                    else
+                        j++;
+                }
+            }
 
             UsersDatabase.UpdateDatabase();
 
@@ -393,7 +406,7 @@ namespace ConsoleToDo
         /// Completes item from the list.
         /// </summary>
         /// <returns>True if successfully comlpleted item.</returns>
-        static private bool CompleteToDo()
+        static bool CompleteToDo()
         {
             IOService.Print(Settings.completeToDo);
 
@@ -445,7 +458,7 @@ namespace ConsoleToDo
         /// <summary>
         /// List of completed items.
         /// </summary>
-        static private void History()
+        static void History()
         {
             int i = 1;
             foreach (var item in UsersDatabase.LogedInUser.TodoList)
@@ -464,7 +477,7 @@ namespace ConsoleToDo
         /// Gets random activation code.
         /// </summary>
         /// <returns>Activation code.</returns>
-        static private string GetRandomCode()
+        static string GetRandomCode()
         {
             Random randomNumbers = new Random();
             string activationCode = String.Empty;
