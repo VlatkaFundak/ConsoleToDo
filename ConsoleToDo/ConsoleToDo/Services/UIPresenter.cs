@@ -20,41 +20,41 @@ namespace ConsoleToDo
         /// Shows certain screen.
         /// </summary>
         /// <param name="screen">Certain screen.</param>
-        static public void ShowScreen(Screen screen)
+        public static void ShowScreen(Screen screen)
         {
             switch (screen)
             {
                 case Screen.StartUp:
                     Console.Clear();
-                    ShowTitle(Settings.title);
+                    ShowTitle(Resources.title);
                     PrintStartupMessage();
                     break;
                 case Screen.Register:
                     Console.Clear();
-                    ShowTitle(Settings.title);
-                    IOService.Print(Settings.registrationMessage, 2);
+                    ShowTitle(Resources.title);
+                    IOService.Print(Resources.registrationMessage, 2);
                     break;
                 case Screen.Login:
                     Console.Clear();
-                    ShowTitle(Settings.title);
-                    IOService.Print(Settings.loginStartupMessage,2);
+                    ShowTitle(Resources.title);
+                    IOService.Print(Resources.loginStartupMessage,2);
                     break;
                 case Screen.UserProfile:
                     Console.Clear();
-                    ShowTitle(Settings.title);
-                    Console.WriteLine("Hi {0}. \t\tYou have {1} todos to complete.\n", UsersDatabase.LogedInUser.Email, UsersDatabase.NumberOfUncompletedToDos());
-                    IOService.Print(Settings.commandsForToDoList,2);
+                    ShowTitle(Resources.title);
+                    Console.WriteLine("Hi {0}. \t\tYou have {1} todos to complete.\n", UsersDatabase.LogedInUser.Email, UserRepository.NumberOfUncompletedToDos());
+                    IOService.Print(Resources.commandsForToDoList,2);
                     ShowToDoList();
                     break;
                 case Screen.AddToDoScreen:
                     Console.Clear();
-                    ShowTitle(Settings.title);
-                    IOService.Print(Settings.addNewItemToList, 2);
+                    ShowTitle(Resources.title);
+                    IOService.Print(Resources.addNewItemToList, 2);
                     break;
                 case Screen.HistoryScreen:
                     Console.Clear();
-                    ShowTitle(Settings.title);
-                    IOService.Print(Settings.historyToDo,1);
+                    ShowTitle(Resources.title);
+                    IOService.Print(Resources.historyToDo,1);
                     break;
             }
         }
@@ -66,7 +66,7 @@ namespace ConsoleToDo
         /// <summary>
         /// Creates stars for title.
         /// </summary>
-        static private void Stars()
+        private static void Stars()
         {
             string stars = new String('*', Console.WindowWidth);
             Console.Write(stars);
@@ -76,7 +76,7 @@ namespace ConsoleToDo
         /// Creates title.
         /// </summary>
         /// <param name="title">Title.</param>
-        static private void ShowTitle(string title)
+        private static void ShowTitle(string title)
         {
             Stars();
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (title.Length / 2)) + "}", title));
@@ -87,17 +87,17 @@ namespace ConsoleToDo
         /// <summary>
         /// Creates a startup message.
         /// </summary>
-        static private void PrintStartupMessage()
+        private static void PrintStartupMessage()
         {
-            IOService.Print(Settings.startUpMessage, 2);
-            IOService.Print(Settings.toLogInMessage);
-            IOService.Print(Settings.toRegisterMessage,1);
+            IOService.Print(Resources.startUpMessage, 2);
+            IOService.Print(Resources.toLogInMessage);
+            IOService.Print(Resources.toRegisterMessage,1);
         }
 
         /// <summary>
         /// Creates todo list.
         /// </summary>
-        static private void ShowToDoList()
+        private static void ShowToDoList()
         {
             int i = 1;
             foreach (var item in UsersDatabase.LogedInUser.TodoList)

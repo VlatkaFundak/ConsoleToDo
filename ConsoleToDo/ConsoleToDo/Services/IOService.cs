@@ -18,7 +18,7 @@ namespace ConsoleToDo
         /// </summary>
         /// <param name="message">Message.</param>
         /// <param name="numberOfSpaces">Number of vertical spaces.</param>
-        static public void Print(string message, int numberOfSpaces)
+        public static void Print(string message, int numberOfSpaces)
         {
             Console.WriteLine(message);
 
@@ -32,7 +32,7 @@ namespace ConsoleToDo
         /// Shows text in the console and adds 0 vertical spaces.
         /// </summary>
         /// <param name="message">Message.</param>
-        static public void Print(string message)
+        public static void Print(string message)
         {
             Print(message, 0);
         }

@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserRepository.cs" />
     <Compile Include="Database\UsersDatabase.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="Infrastructure\Enum.cs" />
-    <Compile Include="Infrastructure\Settings.cs" />
+    <Compile Include="Infrastructure\Resources.cs" />
     <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Models\ToDoItem.cs" />
     <Compile Include="Models\User.cs" />

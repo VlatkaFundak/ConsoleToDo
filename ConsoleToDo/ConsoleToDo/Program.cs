@@ -31,11 +31,11 @@ namespace ConsoleToDo
                 {
                     if (isValid)
                     {
-                        IOService.Print(Settings.enterYourCommand);
+                        IOService.Print(Resources.enterYourCommand);
                     }
                     else
                     {
-                        IOService.Print(Settings.wrongCommand);
+                        IOService.Print(Resources.wrongCommand);
 
                     }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using ConsoleToDo.Code;
 using Infrastructure.Code;
+using System.Net.Mail;
 
 namespace ConsoleToDo
 {
@@ -24,7 +25,7 @@ namespace ConsoleToDo
         /// <param name="currentScreen">Current screen.</param>
         /// <param name="userCommand">User command.</param>
         /// <returns>True if user has entered existing command, Screen that should be shown next.</returns>
-        static public bool GetCommand(string userInput, Screen currentScreen, out UserCommand userCommand)
+        public static bool GetCommand(string userInput, Screen currentScreen, out UserCommand userCommand)
         {
             switch (userInput.ToLower())
             {
@@ -42,7 +43,7 @@ namespace ConsoleToDo
                     }
                     else
                     {
-                        IOService.Print(Settings.wrongCommand);
+                        IOService.Print(Resources.wrongCommand);
                         userCommand = UserCommand.None;
                         return false;
                     }
@@ -87,7 +88,7 @@ namespace ConsoleToDo
                     }
                     else
                     {
-                        IOService.Print(Settings.wrongCommand);
+                        IOService.Print(Resources.wrongCommand);
                         userCommand = UserCommand.None;
                         return false;
                     }
@@ -106,7 +107,7 @@ namespace ConsoleToDo
         /// </summary>
         /// <param name="userInput">User input.</param>
         /// <returns>True if user types back.</returns>
-        static public bool CheckBackOrExit(string userInput)
+        public static bool CheckBackOrExit(string userInput)
         {
             switch (userInput.ToLower())
             {
@@ -126,7 +127,7 @@ namespace ConsoleToDo
         /// <param name="userCommand">User command.</param>
         /// <param name="currentScreen">Current screen.</param>
         /// <returns>Screen.</returns>
-        static public Screen ProcessCommand(UserCommand userCommand, Screen currentScreen)
+        public static Screen ProcessCommand(UserCommand userCommand, Screen currentScreen)
         {            
             Screen screen = currentScreen;
 
@@ -136,7 +137,7 @@ namespace ConsoleToDo
                     screen = Screen.Register;
                     UIPresenter.ShowScreen(screen);
 
-                    if (RegisterProcess() == true)
+                    if (RegisterProcess())
                     {
                         screen = Screen.UserProfile;
                         UIPresenter.ShowScreen(screen);
@@ -151,7 +152,7 @@ namespace ConsoleToDo
                     screen = Screen.Login;
                     UIPresenter.ShowScreen(screen);
 
-                    if (LogInProcess() == true)
+                    if (LogInProcess())
                         screen = Screen.UserProfile;
                     else
                         screen = Screen.StartUp;
@@ -160,7 +161,7 @@ namespace ConsoleToDo
                     screen = Screen.AddToDoScreen;
                     UIPresenter.ShowScreen(screen);
 
-                    if (AddToList() == true)
+                    if (AddToList())
                         screen = Screen.UserProfile;
                     else
                         screen = Screen.UserProfile;
@@ -198,57 +199,58 @@ namespace ConsoleToDo
         {
             string uniqueCode = GetRandomCode();
 
-            IOService.Print(Settings.inputEmail);
+            IOService.Print(Resources.inputEmail);
             string userInputEmail = Console.ReadLine();
-            if (CheckBackOrExit(userInputEmail) == false)
+            if (!CheckBackOrExit(userInputEmail))
                 return false;
 
-            IOService.Print(Settings.passwordInput);
+            IOService.Print(Resources.passwordInput);
             string userInputPassword = Console.ReadLine();
-            if (CheckBackOrExit(userInputPassword) == false)
+            if (!CheckBackOrExit(userInputPassword))
                 return false;
 
             List<ToDoItem> toDoList = new List<ToDoItem>();
 
             User user = new User(userInputEmail, userInputPassword, uniqueCode, toDoList);
 
-            if (UsersDatabase.AddUser(user) == false)
+            if (!UserRepository.AddUser(user))
             {
                 Console.WriteLine("The user already exsits. Press any key to go back to startup screen.");
                 Console.ReadKey();
                 return false;
-            }
-
-            
+            }           
 
             try
             {
                 IEmailService sendEmail = new EmailService();
-                sendEmail.SendEmail(Settings.EmailSettings.email, userInputEmail, Settings.EmailSettings.password, Settings.EmailSettings.host, 
-                   Settings.EmailSettings.portNumber, "Activation code for registering", "Please enter this activation code for further registration:" + uniqueCode);
+                MailMessage mail = new MailMessage(Resources.EmailResources.email, userInputEmail, "Activation code for registering", 
+                    "Please enter this activation code for further registration:" + uniqueCode);
+
+                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host, 
+                   Resources.EmailResources.portNumber);
 
             }
             catch (Exception)
             {
-                IOService.Print(Settings.EmailSettings.sendEmailFail);
+                IOService.Print(Resources.EmailResources.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }
 
-            IOService.Print(Settings.activationCodeInput);
+            IOService.Print(Resources.activationCodeInput);
 
             bool isValid = false;
 
             do
             {
                 string enterActivationCode = Console.ReadLine();
-                if (CheckBackOrExit(enterActivationCode) == false)
+                if (!CheckBackOrExit(enterActivationCode))
                 {
                     isValid = false;
                 }                
-                else if (enterActivationCode.Equals(uniqueCode) == false)
+                else if (!enterActivationCode.Equals(uniqueCode))
                 {
-                    IOService.Print(Settings.wrongCommand + enterActivationCode);
+                    IOService.Print(Resources.wrongCommand + enterActivationCode);
                     isValid = false;
                 }
                 else
@@ -273,19 +275,19 @@ namespace ConsoleToDo
 
             do
             {
-                IOService.Print(Settings.inputEmail);
+                IOService.Print(Resources.inputEmail);
                 string userInputEmail = Console.ReadLine();
-                if (CheckBackOrExit(userInputEmail) == false)
+                if (!CheckBackOrExit(userInputEmail))
                     return false;
 
-                IOService.Print(Settings.passwordInput);
+                IOService.Print(Resources.passwordInput);
                 string userInputPassword = Console.ReadLine();
-                if (CheckBackOrExit(userInputPassword) == false)
+                if (!CheckBackOrExit(userInputPassword))
                     return false;
 
-                if (UsersDatabase.LogInUser(userInputEmail, userInputPassword) == false)
+                if (!UserRepository.LogInUser(userInputEmail, userInputPassword))
                 {
-                    IOService.Print(Settings.wrongCredentials);
+                    IOService.Print(Resources.wrongCredentials);
                     Console.ReadKey();
                     return false;
                 }
@@ -303,31 +305,32 @@ namespace ConsoleToDo
         /// <returns>True if successfully added to the list.</returns>
         static bool AddToList()
         {
-            IOService.Print(Settings.inputDescriptionOfToDo, 1);
+            IOService.Print(Resources.inputDescriptionOfToDo, 1);
             string descriptionOfTheToDo = Console.ReadLine();
-            if (CheckBackOrExit(descriptionOfTheToDo) == false)
+            if (!CheckBackOrExit(descriptionOfTheToDo))
                 return false;
 
-            IOService.Print(Settings.inputDueDateOfToDo);
+            IOService.Print(Resources.inputDueDateOfToDo);
             string dueDate = Console.ReadLine();
-            if (CheckBackOrExit(dueDate) == false)
+            if (!CheckBackOrExit(dueDate))
                 return false;
 
-            IOService.Print(Settings.EmailSettings.taskAddedEmail);
+            IOService.Print(Resources.EmailResources.taskAddedEmail);
 
             UsersDatabase.LogedInUser.TodoList.Add(new ToDoItem(descriptionOfTheToDo, dueDate, false));
 
             IEmailService sendEmail = new EmailService();
 
+            MailMessage mail = new MailMessage(Resources.EmailResources.email, UsersDatabase.LogedInUser.Email, "To do task", "To do description:\n"
+                    + descriptionOfTheToDo + "Due date of to do:\n" + dueDate);
+
             try
             {
-                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, 
-                    Settings.EmailSettings.host, Settings.EmailSettings.portNumber, "To do task", "To do description:\n" 
-                    + descriptionOfTheToDo + "Due date of to do:\n" + dueDate);
+                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host, Resources.EmailResources.portNumber);
             }
             catch (Exception)
             {
-                IOService.Print(Settings.EmailSettings.sendEmailFail);
+                IOService.Print(Resources.EmailResources.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }
@@ -342,7 +345,7 @@ namespace ConsoleToDo
         /// <returns>True if successfully removed from the list.</returns>
         static bool RemoveToDo()
         {
-            IOService.Print(Settings.removeToDo);
+            IOService.Print(Resources.removeToDo);
 
             int indexOfToDoInt = 0;
             bool isValid = true;
@@ -351,16 +354,16 @@ namespace ConsoleToDo
             {
                 string indexOfToDo = Console.ReadLine();
 
-                if (CheckBackOrExit(indexOfToDo) == false)
+                if (!CheckBackOrExit(indexOfToDo))
                     return false;
                 else if (!Int32.TryParse(indexOfToDo, out indexOfToDoInt))
                 {
-                    IOService.Print(Settings.wrongCommand);
+                    IOService.Print(Resources.wrongCommand);
                     isValid = false;
                 }
                 else if (indexOfToDoInt - 1 > UsersDatabase.LogedInUser.TodoList.Count || indexOfToDoInt < 1)
                 {
-                    IOService.Print(Settings.wrongCommand);
+                    IOService.Print(Resources.wrongCommand);
                     isValid = false;
                 }
                 else
@@ -370,17 +373,20 @@ namespace ConsoleToDo
 
             } while (!isValid);
 
-            IOService.Print(Settings.EmailSettings.removedTaskEmail);
+            IOService.Print(Resources.EmailResources.removedTaskEmail);
 
             IEmailService sendEmail = new EmailService();
+            MailMessage mail = new MailMessage(Resources.EmailResources.email, UsersDatabase.LogedInUser.Email, "Removed task",
+                "To do task removed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
+
             try
             {
-                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, Settings.EmailSettings.host,
-                    Settings.EmailSettings.portNumber, "Removed task", "To do task removed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
+                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host,
+                    Resources.EmailResources.portNumber);
             }
             catch (Exception)
             {
-                IOService.Print(Settings.EmailSettings.sendEmailFail);
+                IOService.Print(Resources.EmailResources.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }
@@ -390,7 +396,7 @@ namespace ConsoleToDo
 
             for (int i = 0; i < UsersDatabase.LogedInUser.TodoList.Count; i++)
             {
-                if (UsersDatabase.LogedInUser.TodoList[i].IsCompleted == false)
+                if (!UsersDatabase.LogedInUser.TodoList[i].IsCompleted)
                 {
                     if (j == indexOfToDoInt)
                     {
@@ -413,7 +419,7 @@ namespace ConsoleToDo
         /// <returns>True if successfully comlpleted item.</returns>
         static bool CompleteToDo()
         {
-            IOService.Print(Settings.completeToDo);
+            IOService.Print(Resources.completeToDo);
 
             int indexOfToDoInt = 0;
             bool isValid = true;
@@ -421,17 +427,17 @@ namespace ConsoleToDo
             do
             {
                 string indexOfToDo = Console.ReadLine();
-                if (CheckBackOrExit(indexOfToDo) == false)
+                if (!CheckBackOrExit(indexOfToDo))
                     return false;
 
                 if (!Int32.TryParse(indexOfToDo, out indexOfToDoInt))
                 {
-                    IOService.Print(Settings.wrongCommand);
+                    IOService.Print(Resources.wrongCommand);
                     isValid = false;
                 }
                 else if (indexOfToDoInt - 1 > UsersDatabase.LogedInUser.TodoList.Count || indexOfToDoInt < 1)
                 {
-                    IOService.Print(Settings.wrongCommand);
+                    IOService.Print(Resources.wrongCommand);
                     isValid = false;
                 }
                 else
@@ -440,20 +446,21 @@ namespace ConsoleToDo
             } while (!isValid);
 
             IEmailService sendEmail = new EmailService();
+            MailMessage mail = new MailMessage(Resources.EmailResources.email, UsersDatabase.LogedInUser.Email, "Completed task", 
+                "To do task completed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
             try
             {
-                sendEmail.SendEmail(Settings.EmailSettings.email, UsersDatabase.LogedInUser.Email, Settings.EmailSettings.password, Settings.EmailSettings.host,
-                    Settings.EmailSettings.portNumber, "Completed task", "To do task completed:\n" 
-                    + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
+                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host,
+                    Resources.EmailResources.portNumber);
             }
             catch (Exception)
             {
-                IOService.Print(Settings.EmailSettings.sendEmailFail);
+                IOService.Print(Resources.EmailResources.sendEmailFail);
                 Console.ReadKey();
                 return false;
             }
 
-            UsersDatabase.MarkAsComplete(indexOfToDoInt - 1);
+            UserRepository.MarkAsComplete(indexOfToDoInt - 1);
 
             UsersDatabase.UpdateDatabase();
 
