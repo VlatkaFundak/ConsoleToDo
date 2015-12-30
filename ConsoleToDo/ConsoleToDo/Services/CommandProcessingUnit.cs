@@ -195,7 +195,7 @@ namespace ConsoleToDo
         /// Register process.
         /// </summary>
         /// <returns>True if user enteres correct input.</returns>
-        static bool RegisterProcess()
+        private static bool RegisterProcess()
         {
             string uniqueCode = GetRandomCode();
             IOService.Print(Resources.inputEmail);
@@ -265,7 +265,7 @@ namespace ConsoleToDo
         /// Login process.
         /// </summary>
         /// <returns>True if user types the right input and is registered.</returns>
-        static bool LogInProcess()
+        private static bool LogInProcess()
         {
             bool isValid = true;
 
@@ -287,8 +287,7 @@ namespace ConsoleToDo
                     Console.ReadKey();
                     return false;
                 }
-            }
-
+            } 
             while (!isValid);
 
             return true;
@@ -298,7 +297,7 @@ namespace ConsoleToDo
         /// Adds item to the list.
         /// </summary>
         /// <returns>True if successfully added to the list.</returns>
-        static bool AddToList()
+        private static bool AddToList()
         {
             User logedInUser = UserRepository.GetLogedInUser();
             IOService.Print(Resources.inputDescriptionOfToDo, 1);
@@ -338,7 +337,7 @@ namespace ConsoleToDo
         /// Removes item from the list.
         /// </summary>
         /// <returns>True if successfully removed from the list.</returns>
-        static bool RemoveToDo()
+        private static bool RemoveToDo()
         {
             User logedInUser = UserRepository.GetLogedInUser();           
             IOService.Print(Resources.removeToDo);
@@ -397,7 +396,7 @@ namespace ConsoleToDo
         /// Completes item from the list.
         /// </summary>
         /// <returns>True if successfully comlpleted item.</returns>
-        static bool CompleteToDo()
+        private static bool CompleteToDo()
         {
             User logedInUser = UserRepository.GetLogedInUser();
             IOService.Print(Resources.completeToDo);
@@ -448,7 +447,7 @@ namespace ConsoleToDo
         /// <summary>
         /// List of completed items.
         /// </summary>
-        static void History()
+        private static void History()
         {
             User logedInUser = UserRepository.GetLogedInUser();
 
@@ -469,7 +468,7 @@ namespace ConsoleToDo
         /// Gets random activation code.
         /// </summary>
         /// <returns>Activation code.</returns>
-        static string GetRandomCode()
+        private static string GetRandomCode()
         {
             Random randomNumbers = new Random();
             string activationCode = String.Empty;
