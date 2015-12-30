@@ -15,21 +15,88 @@ namespace ConsoleToDo.Code
     /// </summary>
     public static class UsersDatabase
     {
-        #region Properties
+        #region Fields
 
         /// <summary>
-        /// List of users.
+        /// Users.
         /// </summary>
-        public static List<User> Users { get; set; }
+        private static List<User> users;
 
         /// <summary>
         /// Loged in user.
         /// </summary>
-        public static User LogedInUser { get; set; }
+        private static User logedInUser;
 
         #endregion
 
         #region Public methods
+
+        /// <summary>
+        /// Checks null user or no user and adds it.
+        /// </summary>
+        /// <param name="user">User.</param>
+        /// <returns>True if there is no user with the same input or null user.</returns>
+        public static bool AddUser(User user)
+        {
+            if (user != null)
+            {
+                foreach (var item in users)
+                {
+                    if (user.Email == item.Email)
+                        return false;
+                }
+
+                users.Add(user);
+                logedInUser = user;
+                UpdateDatabase();
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets users.
+        /// </summary>
+        /// <returns>IEnumerable of users.</returns>
+        public static IEnumerable<User> GetUsers()
+        {
+            IEnumerable<User> listOfUsers = (IEnumerable<User>)users;
+            return listOfUsers;
+        }
+
+        /// <summary>
+        /// User login.
+        /// </summary>
+        /// <param name="email">Email.</param>
+        /// <param name="password">Password.</param>
+        /// <returns>True if there is existing user.</returns>
+        public static bool LoginUser(string email, string password)
+        {
+            foreach (var user in users)
+            {
+                if (user != null)
+                {
+                    if (user.Email == email && user.Password == password)
+                    {
+                        logedInUser = user;
+                        UpdateDatabase();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets loged user.
+        /// </summary>
+        /// <returns>Loged user.</returns>
+        public static User GetLogedInUser()
+        {
+            return logedInUser;
+        }
 
         /// <summary>
         /// Updates database with new input.
@@ -40,7 +107,7 @@ namespace ConsoleToDo.Code
             path = Path.Combine(path, "List.txt");
             //users = new List<User>();
 
-            string json = JsonConvert.SerializeObject(Users);
+            string json = JsonConvert.SerializeObject(users);
             File.WriteAllText(path, json);
         }
 
@@ -51,16 +118,16 @@ namespace ConsoleToDo.Code
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             path = Path.Combine(path, "List.txt");
-            Users = new List<User>();
+            users = new List<User>();
 
             if (File.Exists(path))
             {
                 string jsonText = File.ReadAllText(path);
-                Users = JsonConvert.DeserializeObject<List<User>>(jsonText);
+                users = JsonConvert.DeserializeObject<List<User>>(jsonText);
 
-                if (Users == null)
+                if (users == null)
                 {
-                    Users = new List<User>();
+                    users = new List<User>();
                 }
             }
         }

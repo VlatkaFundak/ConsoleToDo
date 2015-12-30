@@ -186,9 +186,9 @@ namespace ConsoleToDo
 
             return screen;
         }
-        
-        #endregion
 
+        #endregion
+        
         #region Private methods
 
         /// <summary>
@@ -198,7 +198,6 @@ namespace ConsoleToDo
         static bool RegisterProcess()
         {
             string uniqueCode = GetRandomCode();
-
             IOService.Print(Resources.inputEmail);
             string userInputEmail = Console.ReadLine();
             if (!CheckBackOrExit(userInputEmail))
@@ -223,11 +222,10 @@ namespace ConsoleToDo
             try
             {
                 IEmailService sendEmail = new EmailService();
-                MailMessage mail = new MailMessage(Resources.EmailResources.email, userInputEmail, "Activation code for registering", 
+                MailMessage mail = new MailMessage(EmailSettings.email, userInputEmail, "Activation code for registering", 
                     "Please enter this activation code for further registration:" + uniqueCode);
 
-                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host, 
-                   Resources.EmailResources.portNumber);
+                sendEmail.SendEmail(mail);
 
             }
             catch (Exception)
@@ -260,8 +258,6 @@ namespace ConsoleToDo
 
             } while (!isValid);
 
-            UsersDatabase.UpdateDatabase();
-
             return true;
         }
 
@@ -292,8 +288,6 @@ namespace ConsoleToDo
                     return false;
                 }
 
-                UsersDatabase.UpdateDatabase();
-
                 return true;
             }
             while (!isValid);
@@ -305,6 +299,7 @@ namespace ConsoleToDo
         /// <returns>True if successfully added to the list.</returns>
         static bool AddToList()
         {
+            User logedInUser = UserRepository.GetLogedInUser();
             IOService.Print(Resources.inputDescriptionOfToDo, 1);
             string descriptionOfTheToDo = Console.ReadLine();
             if (!CheckBackOrExit(descriptionOfTheToDo))
@@ -317,16 +312,16 @@ namespace ConsoleToDo
 
             IOService.Print(Resources.EmailResources.taskAddedEmail);
 
-            UsersDatabase.LogedInUser.TodoList.Add(new ToDoItem(descriptionOfTheToDo, dueDate, false));
+            UserRepository.AddToDo(new ToDoItem(descriptionOfTheToDo, dueDate, false));
 
             IEmailService sendEmail = new EmailService();
 
-            MailMessage mail = new MailMessage(Resources.EmailResources.email, UsersDatabase.LogedInUser.Email, "To do task", "To do description:\n"
+            MailMessage mail = new MailMessage(EmailSettings.email, logedInUser.Email, "To do task", "To do description:\n"
                     + descriptionOfTheToDo + "Due date of to do:\n" + dueDate);
 
             try
             {
-                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host, Resources.EmailResources.portNumber);
+                sendEmail.SendEmail(mail);
             }
             catch (Exception)
             {
@@ -335,7 +330,6 @@ namespace ConsoleToDo
                 return false;
             }
 
-            UsersDatabase.UpdateDatabase();
             return true;
         }
 
@@ -345,6 +339,7 @@ namespace ConsoleToDo
         /// <returns>True if successfully removed from the list.</returns>
         static bool RemoveToDo()
         {
+            User logedInUser = UserRepository.GetLogedInUser();           
             IOService.Print(Resources.removeToDo);
 
             int indexOfToDoInt = 0;
@@ -361,7 +356,7 @@ namespace ConsoleToDo
                     IOService.Print(Resources.wrongCommand);
                     isValid = false;
                 }
-                else if (indexOfToDoInt - 1 > UsersDatabase.LogedInUser.TodoList.Count || indexOfToDoInt < 1)
+                else if (indexOfToDoInt - 1 > logedInUser.TodoList.Count || indexOfToDoInt < 1)
                 {
                     IOService.Print(Resources.wrongCommand);
                     isValid = false;
@@ -376,13 +371,12 @@ namespace ConsoleToDo
             IOService.Print(Resources.EmailResources.removedTaskEmail);
 
             IEmailService sendEmail = new EmailService();
-            MailMessage mail = new MailMessage(Resources.EmailResources.email, UsersDatabase.LogedInUser.Email, "Removed task",
-                "To do task removed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
+            MailMessage mail = new MailMessage(EmailSettings.email, logedInUser.Email, "Removed task",
+                "To do task removed:\n" + logedInUser.TodoList[indexOfToDoInt - 1].Description);
 
             try
             {
-                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host,
-                    Resources.EmailResources.portNumber);
+                sendEmail.SendEmail(mail);
             }
             catch (Exception)
             {
@@ -391,24 +385,9 @@ namespace ConsoleToDo
                 return false;
             }
 
-            int j = 0;
             indexOfToDoInt -= 1;
 
-            for (int i = 0; i < UsersDatabase.LogedInUser.TodoList.Count; i++)
-            {
-                if (!UsersDatabase.LogedInUser.TodoList[i].IsCompleted)
-                {
-                    if (j == indexOfToDoInt)
-                    {
-                        UsersDatabase.LogedInUser.TodoList.RemoveAt(i);
-                        break;
-                    }
-                    else
-                        j++;
-                }
-            }
-
-            UsersDatabase.UpdateDatabase();
+            UserRepository.RemoveToDo(indexOfToDoInt);
 
             return true;
         }
@@ -419,6 +398,7 @@ namespace ConsoleToDo
         /// <returns>True if successfully comlpleted item.</returns>
         static bool CompleteToDo()
         {
+            User logedInUser = UserRepository.GetLogedInUser();
             IOService.Print(Resources.completeToDo);
 
             int indexOfToDoInt = 0;
@@ -435,7 +415,7 @@ namespace ConsoleToDo
                     IOService.Print(Resources.wrongCommand);
                     isValid = false;
                 }
-                else if (indexOfToDoInt - 1 > UsersDatabase.LogedInUser.TodoList.Count || indexOfToDoInt < 1)
+                else if (indexOfToDoInt - 1 > logedInUser.TodoList.Count || indexOfToDoInt < 1)
                 {
                     IOService.Print(Resources.wrongCommand);
                     isValid = false;
@@ -446,12 +426,11 @@ namespace ConsoleToDo
             } while (!isValid);
 
             IEmailService sendEmail = new EmailService();
-            MailMessage mail = new MailMessage(Resources.EmailResources.email, UsersDatabase.LogedInUser.Email, "Completed task", 
-                "To do task completed:\n" + UsersDatabase.LogedInUser.TodoList[indexOfToDoInt - 1].Description);
+            MailMessage mail = new MailMessage(EmailSettings.email, logedInUser.Email, "Completed task", 
+                "To do task completed:\n" + logedInUser.TodoList[indexOfToDoInt - 1].Description);
             try
             {
-                sendEmail.SendEmail(mail, Resources.EmailResources.password, Resources.EmailResources.host,
-                    Resources.EmailResources.portNumber);
+                sendEmail.SendEmail(mail);
             }
             catch (Exception)
             {
@@ -462,8 +441,6 @@ namespace ConsoleToDo
 
             UserRepository.MarkAsComplete(indexOfToDoInt - 1);
 
-            UsersDatabase.UpdateDatabase();
-
             return true;
         }
 
@@ -472,8 +449,10 @@ namespace ConsoleToDo
         /// </summary>
         static void History()
         {
+            User logedInUser = UserRepository.GetLogedInUser();
+
             int i = 1;
-            foreach (var item in UsersDatabase.LogedInUser.TodoList)
+            foreach (var item in logedInUser.TodoList)
             {
                 if (item.IsCompleted == true)
                 {

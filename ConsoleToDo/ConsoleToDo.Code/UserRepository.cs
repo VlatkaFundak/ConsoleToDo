@@ -18,51 +18,82 @@ namespace ConsoleToDo.Code
         /// <returns>True if there is no user with the same input.</returns>
         public static bool AddUser(User user)
         {
-            foreach (var item in UsersDatabase.Users)
-            {
-                if (user.Email == item.Email)
-                    return false;
-            }
-
-            UsersDatabase.Users.Add(user);
-            UsersDatabase.LogedInUser = user;
-            return true;
+            return UsersDatabase.AddUser(user);            
         }
 
         /// <summary>
-        /// Log in user.
+        /// Gets users.
         /// </summary>
-        /// <param name="email">Email of the user.</param>
-        /// <param name="password">Password of the user.</param>
-        /// <returns></returns>
+        /// <returns>IEnumerable of the users.</returns>
+        public static IEnumerable<User> GetUsers()
+        {
+            return UsersDatabase.GetUsers();
+        }
+
+        /// <summary>
+        /// User login.
+        /// </summary>
+        /// <param name="email">Email.</param>
+        /// <param name="password">Password.</param>
+        /// <returns>True if there is existing user.</returns>
         public static bool LogInUser(string email, string password)
         {
-            foreach (var user in UsersDatabase.Users)
+            return UsersDatabase.LoginUser(email, password);
+        }
+
+        /// <summary>
+        /// Gets loged in user.
+        /// </summary>
+        /// <returns>Loged user.</returns>
+        public static User GetLogedInUser()
+        {
+            return UsersDatabase.GetLogedInUser();
+        }        
+
+        /// <summary>
+        /// Loads users.
+        /// </summary>
+        public static void LoadUsers()
+        {
+            UsersDatabase.LoadUsers();
+        }
+
+        /// <summary>
+        /// Adds todo.
+        /// </summary>
+        /// <param name="todo">Todo.</param>
+        public static void AddToDo(ToDoItem todo)
+        {
+            User logedInUser = GetLogedInUser();
+            logedInUser.TodoList.Add(todo);
+
+            UsersDatabase.UpdateDatabase();
+        }
+
+        /// <summary>
+        /// Removes todo.
+        /// </summary>
+        /// <param name="indexOfToDoInt">Index of todo.</param>
+        public static void RemoveToDo(int indexOfToDoInt)
+        {
+            User logedInUser = GetLogedInUser();
+            int j = 0;
+
+            for (int i = 0; i < logedInUser.TodoList.Count; i++)
             {
-                if (user.Email == email && user.Password == password)
+                if (!logedInUser.TodoList[i].IsCompleted)
                 {
-                    UsersDatabase.LogedInUser = user;
-                    return true;
+                    if (j == indexOfToDoInt)
+                    {
+                        logedInUser.TodoList.RemoveAt(i);
+                        break;
+                    }
+                    else
+                        j++;
                 }
             }
 
-            return false;
-        }
-
-        /// <summary>
-        /// Checks whether the input code is equal to code given in email.
-        /// </summary>
-        /// <param name="activationCode">Activation code.</param>
-        /// <returns>True if entered code is equal to the given code.</returns>
-        public static bool ExistingActivationCode(string activationCode)
-        {
-            foreach (var item in UsersDatabase.Users)
-            {
-                if (item.ActivationCode == activationCode)
-                    return false;
-            }
-
-            return true;
+            UsersDatabase.UpdateDatabase();
         }
 
         /// <summary>
@@ -71,8 +102,9 @@ namespace ConsoleToDo.Code
         /// <param name="index">Index of todo.</param>
         public static void MarkAsComplete(int index)
         {
+            User logedInUser = GetLogedInUser();
             int i = 0;
-            foreach (var item in UsersDatabase.LogedInUser.TodoList)
+            foreach (var item in logedInUser.TodoList)
             {
                 if (item.IsCompleted == false)
                 {
@@ -87,6 +119,8 @@ namespace ConsoleToDo.Code
                     }
                 }
             }
+
+            UsersDatabase.UpdateDatabase();
         }
 
         /// <summary>
@@ -95,13 +129,30 @@ namespace ConsoleToDo.Code
         /// <returns>Number of uncompleted todos.</returns>
         public static int NumberOfUncompletedToDos()
         {
+            User logedInUser = GetLogedInUser();
             int i = 0;
-            foreach (var item in UsersDatabase.LogedInUser.TodoList)
+            foreach (var item in logedInUser.TodoList)
             {
                 if (item.IsCompleted == false)
                     i++;
             }
             return i;
+        }
+
+        /// <summary>
+        /// Checks whether the input code is equal to code given in email.
+        /// </summary>
+        /// <param name="activationCode">Activation code.</param>
+        /// <returns>True if entered code is equal to the given code.</returns>
+        public static bool ExistingActivationCode(string activationCode)
+        {
+            foreach (var item in GetUsers())
+            {
+                if (item.ActivationCode == activationCode)
+                    return false;
+            }
+
+            return true;
         }
     }
 }

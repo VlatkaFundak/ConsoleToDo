@@ -42,7 +42,8 @@ namespace ConsoleToDo
                 case Screen.UserProfile:
                     Console.Clear();
                     ShowTitle(Resources.title);
-                    Console.WriteLine("Hi {0}. \t\tYou have {1} todos to complete.\n", UsersDatabase.LogedInUser.Email, UserRepository.NumberOfUncompletedToDos());
+                    User logedInUser = UserRepository.GetLogedInUser();
+                    Console.WriteLine("Hi {0}. \t\tYou have {1} todos to complete.\n", logedInUser.Email, UserRepository.NumberOfUncompletedToDos());
                     IOService.Print(Resources.commandsForToDoList,2);
                     ShowToDoList();
                     break;
@@ -100,7 +101,9 @@ namespace ConsoleToDo
         private static void ShowToDoList()
         {
             int i = 1;
-            foreach (var item in UsersDatabase.LogedInUser.TodoList)
+            User logedInUser = UserRepository.GetLogedInUser();
+
+            foreach (var item in logedInUser.TodoList)
             {
                 if (item.IsCompleted == false)
                 {
