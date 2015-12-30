@@ -287,10 +287,11 @@ namespace ConsoleToDo
                     Console.ReadKey();
                     return false;
                 }
-
-                return true;
             }
+
             while (!isValid);
+
+            return true;
         }
         
         /// <summary>

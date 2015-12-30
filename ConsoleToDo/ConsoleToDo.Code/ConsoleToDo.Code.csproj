@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\EmailSettings.cs" />
-    <Compile Include="UserRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Database\UsersDatabase.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="Infrastructure\Enum.cs" />
